@@ -1,0 +1,198 @@
+﻿@page "/"
+
+<div id="Sections">
+<fluent-design-system-provider>
+  <!-- Design system properties pallete -->
+<fluent-card id="PropertySection0">
+  <h5>Design System Properties</h5>
+  <p>cornerRadius: <label id="currentCorner">@controlCornerRadius</label>px
+    <fluent-slider id="cornerControl" orientation="horizontal" min="0" max="15" step="1"
+    @onchange="OnControlCornerRadiusChange"
+    current-value="onControlCornerRadius">
+      <fluent-slider-label position="0">
+        0px
+      </fluent-slider-label>
+      <fluent-slider-label position="15">
+        15px
+      </fluent-slider-label>
+    </fluent-slider>
+  </p>
+  <br/>
+  <p>disabledOpacity: <label id="currentOpacity">0</label>%
+    <fluent-slider id="opacityControl" orientation="horizontal" min="0" max="1" step="0.01">
+      <fluent-slider-label position="0">
+        0%
+      </fluent-slider-label>
+      <fluent-slider-label position="100">
+        100%
+      </fluent-slider-label>
+    </fluent-slider>
+  </p>
+  <br/>
+  <p>baseLayerLuminance: <label id="currentbaseLayerLuminance">@baseLayerLuminance</label>
+    <fluent-slider id="baseLayerLuminanceControl" orientation="horizontal" min="0" max="1" step="0.01"
+    @onchange="OnBaseLayerLuminanceChange"
+     current-value="@baseLayerLuminance">
+      <fluent-slider-label position="0">
+        Black
+      </fluent-slider-label>
+      <fluent-slider-label position="0.23">
+        Dark
+      </fluent-slider-label>
+      <fluent-slider-label position="1">
+        Light
+      </fluent-slider-label>
+    </fluent-slider>
+  </p>
+  <br/>
+   <fluent-switch id="hidePanel" current-checked="@noPaint" @onclick="OnNoPaintChange">
+    Controls&nbsp;
+    <span slot="checked-message">No Paint</span>
+    <span slot="unchecked-message">Paint</span>
+  </fluent-switch>
+  <br/>
+  <p><label>Accent color picker: <input type="color"
+  @onchange="OnColorChange" value="@accentColot"></label></p>
+  <p><label>FillColor: <input type="color" @onchange="OnFillColorChange"
+   value="@lFillColor"></label></p>
+  <p><label>NeutralBaseColor: <input type="color" @onchange="OnNeutralBaseColorChange"
+   value="@neutralBaseColor"></label></p>
+  <br/>
+  <fluent-text-field type="number" id="designUnit">designUnit:</fluent-text-field>
+  <fluent-text-field @bind-value="Density" type="number" id="density">density:</fluent-text-field>
+  <fluent-text-field type="number" id="heightMultiplier">baseHeightMultiplier:</fluent-text-field>
+  <fluent-text-field type="number" id="baseHorizontalSpacingMultiplier">baseHorizontalSpacingMultiplier:
+  </fluent-text-field>
+  <fluent-text-field type="number" id="outlineWidth" @bind-value="Outline">outlineWidth:</fluent-text-field>
+  <fluent-progress min="0" max="100" value="100"></fluent-progress>
+  <br/>
+  <fluent-switch id="hidePanel" checked>
+    Controls&nbsp;
+    <span slot="checked-message">Hide</span>
+    <span slot="unchecked-message">Show</span>
+  </fluent-switch>
+</fluent-card>
+
+<!-- Design pallete off -->
+<fluent-card id="designPalletteOff">
+  <fluent-switch id="showPanel" checked>
+    Controls&nbsp;
+    <span slot="checked-message">Hide</span>
+    <span slot="unchecked-message">Show</span>
+  </fluent-switch>
+</fluent-card>
+ <fluent-text-field value="test"></fluent-text-field>
+</fluent-design-system-provider>
+
+
+  <!-- Design system properties pallete -->
+<fluent-card id="PropertySection1">
+  <p>cornerRadius: <label id="currentCorner">@controlCornerRadius</label>px
+    <fluent-slider id="cornerControl" orientation="horizontal" min="0" max="15" step="1"
+    @onchange="OnControlCornerRadiusChange"
+    current-value="onControlCornerRadius">
+      <fluent-slider-label position="0">
+        0px
+      </fluent-slider-label>
+      <fluent-slider-label position="15">
+        15px
+      </fluent-slider-label>
+    </fluent-slider>
+  </p>
+  <br/>
+</fluent-card>
+
+<fluent-design-system-provider id="FormSection"
+no-paint =@noPaint
+fill-color="@lFillColor"
+accent-base-color ="@accentColot"
+neutral-base-color ="@neutralBaseColor"
+base-layer-luminance ="@baseLayerLuminance"
+density ="@Density"
+control-corner-radius ="@controlCornerRadius"
+
+
+>
+
+
+<fluent-badge appearance="accent">@colorStatus @noPaint</fluent-badge>
+<fluent-card no-paint =@noPaint style="background-color:var(--fill-color);">
+<fluent-button appearance="outline">Outline</fluent-button>
+<fluent-button appearance="accent">Accent</fluent-button>
+<fluent-button appearance="neutral">Neutral</fluent-button>
+<fluent-button appearance="stealth">Stealth</fluent-button>
+</fluent-card>
+</fluent-design-system-provider>
+</div>
+@code{
+
+  public string accentColot {get;set;}
+  public string? lFillColor { get; set; }
+  public string? neutralBaseColor { get; set; }
+  public float baseLayerLuminance {get; set;}
+  public int Density {get;set;} =0;
+  public int Outline {get;set;} =0;
+  public string colorStatus {get;set;} = "Nothing Yet";
+  public int? controlCornerRadius {get; set;}
+  public bool noPaint {set;get;} = true;
+
+
+protected override async Task OnInitializedAsync()
+{
+  accentColot = "#00b2a9";
+  neutralBaseColor = "#00b2a9";
+  lFillColor="#E5E5F1";
+  colorStatus = "OnInitialized";
+  baseLayerLuminance = 0.71f;
+  Density = 0;
+  controlCornerRadius = 6;
+  noPaint = false;
+
+  await Task.Delay(1000);
+}
+
+  public Task OnColorChange(ChangeEventArgs e)
+  {
+    Console.WriteLine("here");
+    colorStatus= e.Value.ToString();
+     accentColot = e.Value.ToString();
+      return Task.CompletedTask;
+
+  }
+    public Task OnFillColorChange(ChangeEventArgs e)
+  {
+    Console.WriteLine("here");
+    colorStatus= e.Value.ToString();
+     lFillColor = e.Value.ToString();
+      return Task.CompletedTask;
+
+  }
+    public Task OnNeutralBaseColorChange(ChangeEventArgs e)
+  {
+    Console.WriteLine("here");
+    colorStatus= e.Value.ToString();
+     neutralBaseColor = e.Value.ToString();
+      return Task.CompletedTask;
+
+  }
+  public Task OnBaseLayerLuminanceChange(ChangeEventArgs e)
+  {
+    colorStatus= e.Value.ToString();
+    baseLayerLuminance = float.Parse(e.Value.ToString());
+    return Task.CompletedTask;
+  }
+  public Task OnControlCornerRadiusChange(ChangeEventArgs e)
+  {
+     colorStatus= e.Value.ToString();
+    controlCornerRadius = int.Parse(e.Value.ToString());
+    return Task.CompletedTask;
+
+  }
+    public Task OnNoPaintChange(EventArgs e)
+  {
+    colorStatus= e.ToString();
+    noPaint =!noPaint;
+    return Task.CompletedTask;
+
+  }
+}
