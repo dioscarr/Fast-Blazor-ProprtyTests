@@ -121,6 +121,21 @@ control-corner-radius ="@controlCornerRadius"
 <fluent-button appearance="accent">Accent</fluent-button>
 <fluent-button appearance="neutral">Neutral</fluent-button>
 <fluent-button appearance="stealth">Stealth</fluent-button>
+<br/>
+<FluentDesignSystemProvider use-defaults>
+
+<FluentRadioGroup Required="true" Name ="Gender1"  @current-value="Gender" Value="Gender" >
+  <FluentRadio  Value="male">Male</FluentRadio>
+  <FluentRadio  Value="female">Female</FluentRadio>
+</FluentRadioGroup>
+</FluentDesignSystemProvider>
+
+<fluent-radio-group name ="Gender"  @bind-value="Gender">
+  <fluent-radio   value="male">Male</fluent-radio>
+  <fluent-radio   value="female">Female</fluent-radio>
+</fluent-radio-group>
+
+<label>Gender selaected is @Gender</label>
 </fluent-card>
 </fluent-design-system-provider>
 </div>
@@ -137,16 +152,20 @@ control-corner-radius ="@controlCornerRadius"
   public bool noPaint {set;get;} = true;
 
 
+public string? Gender { get; set; }
+
 protected override async Task OnInitializedAsync()
 {
   accentColot = "#00b2a9";
-  neutralBaseColor = "#00b2a9";
-  lFillColor="#E5E5F1";
+  neutralBaseColor = "#ffffff";
+  lFillColor="#ffffff";
   colorStatus = "OnInitialized";
-  baseLayerLuminance = 0.71f;
+  baseLayerLuminance = 0.99f;
   Density = 0;
   controlCornerRadius = 6;
   noPaint = false;
+
+  Gender = "female";
 
   await Task.Delay(1000);
 }
